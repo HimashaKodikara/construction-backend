@@ -178,9 +178,7 @@ class ArticleController extends Controller
 
                 File::delete(public_path('uploads/articles/large/'.$oldImage));
                 File::delete(public_path('uploads/articles/small/'.$oldImage));
-
-
-            }
+                 }
 
 
             }

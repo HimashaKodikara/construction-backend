@@ -8,9 +8,10 @@ use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\TempImageController;
+use App\Http\Controllers\admin\TestimonialController;
+use App\Http\Controllers\front\ArticleController as FrontArticleController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
-use App\Http\Controllers\front\ArticleController as FrontArticleController;
 
 
  Route :: post('authenticate',[AuthenticationController::class,'authenticate']);
@@ -55,8 +56,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('articles/{id}', [ArticleController::class, 'destroy']);
 
 
-
-
+    //Testmonial
+    Route::post('testimonials',[TestimonialController::class,'store']);
+    Route::get('testimonials',[TestimonialController::class,'index']);
+    Route::get('testimonials/{id}',[TestimonialController::class,'show']);
+    Route::put('testimonials/{id}',[TestimonialController::class,'update']);
+    Route::delete('testimonials/{id}',[TestimonialController::class,'destroy']);
 
 
     Route :: post('temp-images',[TempImageController::class,'store']);
