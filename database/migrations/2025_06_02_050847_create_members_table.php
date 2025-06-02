@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('image')->nullable();
+            $table->string('job_title');
+            $table->string('linkedin_url')->null;
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

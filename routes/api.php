@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\MemberController;
 use App\Http\Controllers\admin\ArticleController;
 use App\Http\Controllers\admin\ProjectController;
 use App\Http\Controllers\admin\ServiceController;
@@ -69,7 +70,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route :: post('temp-images',[TempImageController::class,'store']);
 
-
+    // Member route
+    Route::post('members',[MemberController::class,'store']);
+    Route::get('members',[MemberController::class,'index']);
+    Route::get('members/{id}',[MemberController::class,'show']);
+    Route::put('members/{id}',[MemberController::class,'update']);
+    Route::delete('members/{id}',[MemberController::class,'destroy']);
 
 
 
