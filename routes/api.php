@@ -12,6 +12,7 @@ use App\Http\Controllers\admin\TestimonialController;
 use App\Http\Controllers\front\ArticleController as FrontArticleController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
+use App\Http\Controllers\front\TestimonialController as FrontTestimonialController;
 
 
  Route :: post('authenticate',[AuthenticationController::class,'authenticate']);
@@ -24,6 +25,8 @@ use App\Http\Controllers\front\ServiceController as FrontServiceController;
  Route :: get('get-articles',[FrontArticleController::class,'index']);
  Route :: get('get-latest-articles',[FrontArticleController::class,'latestArticles']);
 
+ Route :: get('get-testimonials',[FrontTestimonialController::class,'index']);
+ Route :: get('get-latest-testimonials',[FrontTestimonialController::class,'latestTestimonial']);
 
 
 // Route::get('/user', function (Request $request) {
