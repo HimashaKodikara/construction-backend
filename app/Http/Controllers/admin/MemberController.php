@@ -38,7 +38,7 @@ class MemberController extends Controller
          $member = new Member();
          $member->name = $request->name;
          $member->job_title = $request->job_title;
-        $member->linkedin_url = $request->linkedin_url;
+         $member->linkedin_url = $request->linkedin_url;
          $member->status = $request->status;
          $member->save();
 
@@ -60,8 +60,8 @@ class MemberController extends Controller
                 $image = $manager->read($sourcePath);
                 $image->coverDown(400,500);
                 $image->save($destPath);
-                 $member->image = $fileName;
-                 $member->save();
+                $member->image = $fileName;
+                $member->save();
 
 
 
@@ -91,64 +91,74 @@ class MemberController extends Controller
              ]);
     }
 
-    public function update($id, Request $request){
-            $validator = Validator::make($request->all(),[
-                'name' => 'required',
-                'job_title' => 'required'
+    public function update($id, Request $request)
+{
+    // Validate input
+    $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'job_title' => 'required'
+    ]);
 
-            ]);
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => false,
+            'errors' => $validator->errors()
+        ]);
+    }
 
-            if($validator->fails()){
-                return response()->json([
-                    'status' => false,
-                    'errors' => $validator->errors()
-                ]);
-            }
+    // Fetch the member
+    $member = Member::find($id);
 
-            $member->name = $request->name;
-            $member->job_title = $request->job_title;
-            $member->linkedin_url = $request->linkedin_url;
-            $member->status = $request->status;
+    if (!$member) {
+        return response()->json([
+            'status' => false,
+            'errors' => 'Member not found'
+        ], 404);
+    }
+
+    // Update member properties
+    $member->name = $request->name;
+    $member->job_title = $request->job_title;
+    $member->linkedin_url = $request->linkedin_url;
+    $member->status = $request->status;
+    $member->save();
+
+    // Save Temp Image if provided
+    if ($request->imageId > 0) {
+        $oldImage = $member->image;
+        $tempImage = TempImage::find($request->imageId);
+
+        if ($tempImage != null) {
+            $extArray = explode('.', $tempImage->name);
+            $ext = last($extArray);
+            $fileName = strtotime('now') . $member->id . '.' . $ext;
+
+            // Resize and save image
+            $sourcePath = public_path('uploads/temp/' . $tempImage->name);
+            $destPath = public_path('uploads/members/' . $fileName);
+            $manager = new ImageManager(Driver::class);
+            $image = $manager->read($sourcePath);
+            $image->coverDown(400, 500);
+            $image->save($destPath);
+
+            // Update member image
+            $member->image = $fileName;
             $member->save();
 
-
-            //Save Temp Image
-            if($request->imageId >0){
-                $oldImage = $member->image;
-
-                $tempImage = TempImage::find($request->imageId);
-
-                if($tempImage != null){
-                $extArray = explode('.',$tempImage->name);
-                $ext = last($extArray);
-
-                $fileName = strtotime('now').$member->id.'.'.$ext;
-
-                //Create small thumbnail here
-                    $sourcePath = public_path('uploads/temp/'.$tempImage->name);
-                    $destPath = public_path('uploads/members/'.$fileName);
-                    $manager = new ImageManager(Driver::class);
-                    $image = $manager->read($sourcePath);
-                    $image->coverDown(400,500);
-                    $image->save($destPath);
-
-                    $member->image = $fileName;
-                    $member->save();
-
-                  if($oldImage != ''){
-                    File::delete(public_path('uploads/members/'.$oldImage));
-                  }
-
-
-                }
+            // Delete old image if exists
+            if (!empty($oldImage)) {
+                File::delete(public_path('uploads/members/' . $oldImage));
             }
-            return response()->json([
-                    'status' => true,
-                    'errors' => "Members updated succesfully "
-                ]);
-
-
+        }
     }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Member updated successfully'
+    ]);
+}
+
+
     public function destroy($id)
     {
         $member = Member::find($id);

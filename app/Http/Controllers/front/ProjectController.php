@@ -33,4 +33,20 @@ public function index(){
 
 }
 
+public function project($id){
+    $projects = Project::find($id);
+
+    if($projects == null){
+        return response()->json([
+            'status' => false,
+            'message' => 'Project not found'
+        ]);
+    }
+
+    return response()->json([
+           'status' => true,
+           'data' => $projects
+    ]);
+
+}
 }

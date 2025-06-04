@@ -14,20 +14,25 @@ use App\Http\Controllers\front\ArticleController as FrontArticleController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
 use App\Http\Controllers\front\TestimonialController as FrontTestimonialController;
-
+use App\Http\Controllers\front\MemberController as FrontMemberController;
 
  Route :: post('authenticate',[AuthenticationController::class,'authenticate']);
  Route :: get('get-services',[FrontServiceController::class,'index']);
  Route :: get('get-latest-services',[FrontServiceController::class,'latestServices']);
+ Route :: get('get-service/{id}',[FrontServiceController::class,'service']);
+
 
  Route :: get('get-projects',[FrontProjectController::class,'index']);
  Route :: get('get-latest-projects',[FrontProjectController::class,'latestProjects']);
+Route :: get('get-projects/{id}',[FrontProjectController::class,'project']);
+
 
  Route :: get('get-articles',[FrontArticleController::class,'index']);
  Route :: get('get-latest-articles',[FrontArticleController::class,'latestArticles']);
 
  Route :: get('get-testimonials',[FrontTestimonialController::class,'index']);
- Route :: get('get-latest-testimonials',[FrontTestimonialController::class,'latestTestimonial']);
+
+  Route :: get('get-members',[FrontMemberController::class,'index']);
 
 
 // Route::get('/user', function (Request $request) {
