@@ -32,4 +32,21 @@ class ArticleController extends Controller
         ]);
 
     }
+
+
+    public function article($id){
+        $articles = Article::find($id);
+
+        if($articles == null){
+            return reponse()->json([
+                'status' => false,
+                'message' => 'Articel not found'
+            ]);
+        }
+        return response()->json([
+            'status' =>true,
+            'data' => $articles
+        ]);
+
+    }
 }

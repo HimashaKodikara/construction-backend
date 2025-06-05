@@ -6,20 +6,22 @@ use App\Http\Controllers\admin\MemberController;
 use App\Http\Controllers\admin\ArticleController;
 use App\Http\Controllers\admin\ProjectController;
 use App\Http\Controllers\admin\ServiceController;
+use App\Http\Controllers\front\ContactController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\admin\TestimonialController;
+use App\Http\Controllers\front\MemberController as FrontMemberController;
 use App\Http\Controllers\front\ArticleController as FrontArticleController;
 use App\Http\Controllers\front\ProjectController as FrontProjectController;
 use App\Http\Controllers\front\ServiceController as FrontServiceController;
 use App\Http\Controllers\front\TestimonialController as FrontTestimonialController;
-use App\Http\Controllers\front\MemberController as FrontMemberController;
 
  Route :: post('authenticate',[AuthenticationController::class,'authenticate']);
  Route :: get('get-services',[FrontServiceController::class,'index']);
  Route :: get('get-latest-services',[FrontServiceController::class,'latestServices']);
  Route :: get('get-service/{id}',[FrontServiceController::class,'service']);
+ Route :: post('contact-now',[ContactController::class,'index']);
 
 
  Route :: get('get-projects',[FrontProjectController::class,'index']);
@@ -29,6 +31,8 @@ Route :: get('get-projects/{id}',[FrontProjectController::class,'project']);
 
  Route :: get('get-articles',[FrontArticleController::class,'index']);
  Route :: get('get-latest-articles',[FrontArticleController::class,'latestArticles']);
+ Route :: get('get-articles/{id}',[FrontArticleController::class,'article']);
+
 
  Route :: get('get-testimonials',[FrontTestimonialController::class,'index']);
 
